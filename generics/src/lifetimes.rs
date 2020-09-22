@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 pub fn lifetime_main() {
     danglingref();
     find_longer();
@@ -21,6 +23,7 @@ fn find_longer() {
     println!("The longest string is {}", result);
 }
 
+//fn longest<'a>(x: &str, y: &str) -> &str {//can't figure out lifetime
 fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     if x.len() > y.len() {
         x
@@ -33,6 +36,11 @@ struct ImportantExcerpt<'a> {
     part: &'a str,
 }
 
+//fn _broken_longest<'a>(x: &str, y: &str) -> &'a str {
+//    let result = String::from("really long string");
+//    result.as_str()
+//}
+
 fn struct_lifetime() {
     let novel = String::from("Call me Ishmael.  Some years ago...");
     let first_sentence = novel.split('.').next().expect("Could not find a '.'");
@@ -40,4 +48,48 @@ fn struct_lifetime() {
         part: first_sentence,
     };
     println!("{}", i.part);
+}
+
+// // Lifetime Elison
+// fn _first_word(s: &str) -> &str {
+// // Wait, why doesn't this need lifetime indication like:
+// // fn first_word<'a>(s: &'a str) -> &'a str {
+
+//     let bytes = s.as_bytes();
+
+//     for (i, &item) in bytes.iter().enumerate() {
+//         if item == b' ' {
+//             return &s[0..i];
+//         }
+//     }
+
+//     &s[..]
+// }
+
+impl<'a> ImportantExcerpt<'a> {
+    fn _level(&self) -> i32 {
+        3
+    }
+}
+
+impl<'a> ImportantExcerpt<'a> {
+    fn _announce_and_return_part(&self, announcement: &str) -> &str {
+        println!("Attention please: {}", announcement);
+        self.part
+    }
+}
+fn _static_lifetime() {
+    let s: &'static str = "I have a static lifetime.";
+}
+
+fn _longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
+where
+    T: Display,
+{
+    println!("Announcement! {}", ann);
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
 }
