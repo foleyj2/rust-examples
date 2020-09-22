@@ -2,7 +2,6 @@ pub trait Summary {
     fn summarize(&self) -> String {
         String::from("(Read more...)")
     }
-
 }
 
 pub struct NewsArticle {
@@ -44,7 +43,7 @@ pub fn testtweet() {
 }
 
 pub trait Summary2 {
-    fn summarize_author(&self) -> String;  // needs to be implemented
+    fn summarize_author(&self) -> String; // needs to be implemented
 
     fn summarize(&self) -> String {
         format!("(Read more from {}...)", self.summarize_author())
@@ -73,12 +72,12 @@ pub fn testtweet2() {
     println!("1 new tweet: {}", tweet.summarize());
 }
 
-pub fn notify(item: &impl Summary) {
+pub fn _notify(item: &impl Summary) {
     // syntactic sugar: <T: Summary>(item: &T)
     println!("Breaking news! {}", item.summarize());
 }
 
-fn returns_summarizable() -> impl Summary {
+fn _returns_summarizable() -> impl Summary {
     Tweet {
         username: String::from("horse_ebooks"),
         content: String::from("of course, as you probably already know, people"),

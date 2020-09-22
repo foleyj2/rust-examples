@@ -7,8 +7,8 @@ pub fn lifetime_main() {
 fn danglingref() {
     let r;
     // { // dangling reference if we restrict the scope
-        let x = 5;
-        r = &x;
+    let x = 5;
+    r = &x;
     // }
     println!("r: {}", r);
 }
@@ -36,7 +36,8 @@ struct ImportantExcerpt<'a> {
 fn struct_lifetime() {
     let novel = String::from("Call me Ishmael.  Some years ago...");
     let first_sentence = novel.split('.').next().expect("Could not find a '.'");
-    let _i = ImportantExcerpt {
+    let i = ImportantExcerpt {
         part: first_sentence,
     };
+    println!("{}", i.part);
 }
