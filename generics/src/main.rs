@@ -3,8 +3,7 @@ mod traits;
 
 fn main() {
     test_typed_largest();
-    traits::testtweet();
-    traits::testtweet2();
+    traits::traits_main();
     lifetimes::lifetime_main();
 }
 
