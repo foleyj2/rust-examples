@@ -1,9 +1,25 @@
 use std::fmt::Display;
 
 pub fn traits_main() {
-    testtweet();
-    testtweet2();
-    largest_test();
+    //testtweet();
+    test_article_default();
+    //    testtweet2();
+    //    largest_test();
+}
+
+// Kristjan's question:  enums with traits?
+pub enum MyEnum {
+    X,
+    Y,
+}
+
+impl Summary for MyEnum {
+    fn summarize(&self) -> String {
+        match self {
+            MyEnum::X => format!("I'm a MyEnum enum X"),
+            MyEnum::Y => format!("I'm a MyEnum enum Y"),
+        }
+    }
 }
 
 pub trait Summary {
@@ -58,6 +74,21 @@ pub trait Summary2 {
         format!("(Read more from {}...)", self.summarize_author())
     }
 }
+
+pub fn test_article_default() {
+    let article = NewsArticle {
+        headline: String::from("Penguins win the Stanley Cup Championship!"),
+        location: String::from("Pittsburgh, PA, USA"),
+        author: String::from("Iceburgh"),
+        content: String::from(
+            "The Pittsburgh Penguins once again are the best \
+             hockey team in the NHL.",
+        ),
+    };
+
+    println!("New article available! {}", article.summarize());
+}
+
 pub struct Tweet2 {
     pub username: String,
     pub content: String,
@@ -128,9 +159,7 @@ fn _returns_summarizable2() -> impl Summary {
 // fn _broken_returns_summarizable(switch: bool) -> impl Summary {
 //     if switch {
 //         NewsArticle {
-//             headline: String::from(
-//                 "Penguins win the Stanley Cup Championship!",
-//             ),
+//             headline: String::from("Penguins win the Stanley Cup Championship!"),
 //             location: String::from("Pittsburgh, PA, USA"),
 //             author: String::from("Iceburgh"),
 //             content: String::from(
@@ -141,9 +170,7 @@ fn _returns_summarizable2() -> impl Summary {
 //     } else {
 //         Tweet {
 //             username: String::from("horse_ebooks"),
-//             content: String::from(
-//                 "of course, as you probably already know, people",
-//             ),
+//             content: String::from("of course, as you probably already know, people"),
 //             reply: false,
 //             retweet: false,
 //         }

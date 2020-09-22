@@ -1,17 +1,18 @@
 use std::fmt::Display;
 
 pub fn lifetime_main() {
-    danglingref();
+    //danglingref();
     find_longer();
-    struct_lifetime();
+    //struct_lifetime();
 }
 
 fn danglingref() {
     let r;
-    // { // dangling reference if we restrict the scope
+    //{
+    // dangling reference if we restrict the scope
     let x = 5;
     r = &x;
-    // }
+    //}
     println!("r: {}", r);
 }
 
@@ -23,7 +24,8 @@ fn find_longer() {
     println!("The longest string is {}", result);
 }
 
-//fn longest<'a>(x: &str, y: &str) -> &str {//can't figure out lifetime
+//fn longest<'a>(x: &str, y: &str) -> &str {
+//can't figure out lifetime
 fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     if x.len() > y.len() {
         x
@@ -51,20 +53,20 @@ fn struct_lifetime() {
 }
 
 // // Lifetime Elison
-// fn _first_word(s: &str) -> &str {
-// // Wait, why doesn't this need lifetime indication like:
-// // fn first_word<'a>(s: &'a str) -> &'a str {
+fn _first_word(s: &str) -> &str {
+    // Wait, why doesn't this need lifetime indication like:
+    // fn first_word<'a>(s: &'a str) -> &'a str {
 
-//     let bytes = s.as_bytes();
+    let bytes = s.as_bytes();
 
-//     for (i, &item) in bytes.iter().enumerate() {
-//         if item == b' ' {
-//             return &s[0..i];
-//         }
-//     }
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
 
-//     &s[..]
-// }
+    &s[..]
+}
 
 impl<'a> ImportantExcerpt<'a> {
     fn _level(&self) -> i32 {
