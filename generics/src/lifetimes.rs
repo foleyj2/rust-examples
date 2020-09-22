@@ -79,7 +79,8 @@ impl<'a> ImportantExcerpt<'a> {
     }
 }
 fn _static_lifetime() {
-    let s: &'static str = "I have a static lifetime.";
+    let _s: &'static str = "I have a static lifetime.";
+    // static can live for the lifetime of the whole program
 }
 
 fn _longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
