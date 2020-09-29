@@ -5,7 +5,6 @@ authors = ["Joseph Timothy Foley <foley@ru.is>"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
 description = "A fun game where you guess what number the computer has chosen."
-documentation = "Blah blah blah"
 homepage = "https://www.ru.is"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
