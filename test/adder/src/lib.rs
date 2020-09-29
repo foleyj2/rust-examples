@@ -25,6 +25,7 @@ struct Rectangle {
     height: u32,
 }
 
+#[allow(dead_code)] // some of the test declarations cause warnings
 impl Rectangle {
     fn can_hold(&self, other: &Rectangle) -> bool {
         self.width > other.width && self.height > other.height
@@ -37,6 +38,7 @@ impl Rectangle {
 //     }
 // }
 
+#[allow(unused_imports)] //Not sure why it isn't noticing the call to Rectangle
 mod test_rectangle {
     use super::*;
 
@@ -118,6 +120,7 @@ mod test_greeting {
     }
 }
 
+#[allow(dead_code)] // some of the test declarations cause warnings
 pub struct Guess {
     value: i32,
 }
@@ -147,6 +150,7 @@ mod test_guess {
     }
 }
 
+#[allow(dead_code)] // some of the test declarations cause warnings
 pub struct Guess2 {
     value: i32,
 }
@@ -209,6 +213,7 @@ mod test_result {
 // You can limit threads
 //$ cargo test -- --test-threads=1
 
+#[allow(dead_code)]
 fn prints_and_returns_10(a: i32) -> i32 {
     println!("I got the value {}", a);
     10
