@@ -13,7 +13,8 @@ fn main() {
     //main_extracted();
     //main_handle_returned_errors();
     //main_crate();
-    main_test_driven_dev();
+    //main_test_driven_dev();
+    main_icase_env_var();
 }
 
 // 12-1
@@ -258,6 +259,9 @@ fn main_crate() {
     }
 }
 
+// Developing the Library’s Functionality with Test-Driven Development
+// https://doc.rust-lang.org/book/ch12-04-testing-the-librarys-functionality.html
+
 //12-15 setup
 // Test Driven Development needs different main
 #[allow(dead_code)]
@@ -272,6 +276,28 @@ fn main_test_driven_dev() {
         //incomplete
         //if let Err(e) = minigrep::run_finished(config) {
         //complete
+        println!("Application error: {}", e);
+
+        process::exit(1);
+    }
+}
+
+/////// Working with Environment Variables
+// https://doc.rust-lang.org/book/ch12-05-working-with-environment-variables.html
+use minigrep::ConfigIcase;
+
+// cargo run to poem.txt
+// CASE_INSENSITIVE=1 cargo run to poem.txt
+
+#[allow(dead_code)]
+fn main_icase_env_var() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = ConfigIcase::new(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
+    if let Err(e) = minigrep::run_case_insensitive(config) {
         println!("Application error: {}", e);
 
         process::exit(1);
