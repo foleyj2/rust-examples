@@ -14,8 +14,12 @@ fn main() {
     //main_handle_returned_errors();
     //main_crate();
     //main_test_driven_dev();
-    main_icase_env_var();
+    //main_icase_env_var();
+    main_stderr();
 }
+
+//////////////////  12.1 Accepting Command Line Arguments
+// https://doc.rust-lang.org/book/ch12-01-accepting-command-line-arguments.html
 
 // 12-1
 #[allow(dead_code)]
@@ -37,8 +41,10 @@ fn main_save_args() {
     println!("In file {}", filename);
 }
 
-// 12-3
+////////////////// 12.2 Reading a File
 // https://doc.rust-lang.org/book/ch12-02-reading-a-file.html
+
+// 12-4
 // cargo run the poem.txt
 use std::fs;
 
@@ -59,8 +65,11 @@ fn main_read_file() {
     // issue:  we are also not handling errors
 }
 
+/////////////////// 12.3 Refactoring to Improve Modularity and Error Handling
+// https://doc.rust-lang.org/book/ch12-03-improving-error-handling-and-modularity.html
 // 12-5
-// Refactor for modulary and error handling!
+
+// Separation of Concerns for Binary Projects
 #[allow(dead_code)]
 fn main_extract_arg_parser() {
     let args: Vec<String> = env::args().collect();
@@ -299,6 +308,31 @@ fn main_icase_env_var() {
     });
     if let Err(e) = minigrep::run_case_insensitive(config) {
         println!("Application error: {}", e);
+
+        process::exit(1);
+    }
+}
+
+// Writing Error Messages to Standard Error Instead of Standard Output
+// https://doc.rust-lang.org/book/ch12-06-writing-to-stderr-instead-of-stdout.html
+
+// cargo run > output.txt  // can't see error messages!  They end up in the file.
+
+// replace println!  with eprintln!
+
+// cargo run to poem.txt > output.txt // now streams are separated
+
+#[allow(dead_code)]
+fn main_stderr() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = ConfigIcase::new(&args).unwrap_or_else(|err| {
+        eprintln!("Problem parsing arguments: {}", err); //The magic happens here!
+        process::exit(1);
+    });
+
+    if let Err(e) = minigrep::run_case_insensitive(config) {
+        eprintln!("Application error: {}", e);
 
         process::exit(1);
     }
