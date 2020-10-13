@@ -11,7 +11,9 @@ fn main() {
     //main_group_config_vals();
     //main_group_config_constructor();
     //main_extracted();
-    main_handle_returned_errors();
+    //main_handle_returned_errors();
+    //main_crate();
+    main_test_driven_dev();
 }
 
 // 12-1
@@ -228,6 +230,48 @@ fn main_handle_returned_errors() {
 
     // run_result(config); // gives warning of unhandled errors
     if let Err(e) = run_result(config) {
+        println!("Application error: {}", e);
+
+        process::exit(1);
+    }
+}
+
+//12-14
+// moving library functions into lib.rs
+use minigrep::Config2;
+
+#[allow(dead_code)]
+fn main_crate() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config2::new(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.filename);
+
+    if let Err(e) = minigrep::run(config) {
+        println!("Application error: {}", e);
+
+        process::exit(1);
+    }
+}
+
+//12-15 setup
+// Test Driven Development needs different main
+#[allow(dead_code)]
+fn main_test_driven_dev() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config2::new(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
+    if let Err(e) = minigrep::run(config) {
+        //incomplete
+        //if let Err(e) = minigrep::run_finished(config) {
+        //complete
         println!("Application error: {}", e);
 
         process::exit(1);
