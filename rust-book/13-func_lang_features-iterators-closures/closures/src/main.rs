@@ -20,6 +20,8 @@ fn main() {
     generate_workout_cacher(simulated_user_specified_value, simulated_random_number);
 
     closure_syntax();
+    main_enc_scope();
+    //main_fn_no_scope(); //warning: won't compile
 }
 
 // 13-3
@@ -169,3 +171,36 @@ fn generate_workout_cacher(intensity: u32, random_number: u32) {
         }
     }
 }
+
+//13-12
+// Example of a closure that refers to a variable in its enclosing scope
+fn main_enc_scope() {
+    let x = 4;
+
+    let equal_to_x = |z| z == x;
+
+    // move keyword to force taking ownership, makes error in this case
+    //let equal_to_x = move |z| z == x;
+
+    // Remember closure capture in 3 ways
+    // * FnOnce consumes the variables it captures from its enclosing scope, known as the closure’s environment. To consume the captured variables, the closure must take ownership of these variables and move them into the closure when it is defined. The Once part of the name represents the fact that the closure can’t take ownership of the same variables more than once, so it can be called only once.
+    // (all closures implement this)
+    // * FnMut can change the environment because it mutably borrows values.
+    // * Fn borrows values from the environment immutably.
+
+    let y = 4;
+
+    assert!(equal_to_x(y));
+}
+
+// fn main_fn_no_scope() {
+//     let x = 4;
+
+//     fn equal_to_x(z: i32) -> bool {
+//         z == x
+//     }
+
+//     let y = 4;
+
+//     assert!(equal_to_x(y));
+// }
